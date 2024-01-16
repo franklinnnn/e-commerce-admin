@@ -1,13 +1,9 @@
 import Stripe from "stripe";
-
 import { headers } from "next/headers";
-
 import { NextResponse } from "next/server";
 
 import { stripe } from "@/lib/stripe";
-
 import prismadb from "@/lib/prismadb";
-import { request } from "http";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -37,7 +33,7 @@ export async function POST(req: Request) {
     address?.country,
   ];
 
-  const addressString = addressComponents.filter((c) => c !== null).join(",");
+  const addressString = addressComponents.filter((c) => c !== null).join(", ");
 
   if (event.type === "checkout.session.completed") {
     const order = await prismadb.order.update({
